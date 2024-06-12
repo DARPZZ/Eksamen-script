@@ -30,7 +30,7 @@ def random_number(max_val):
 def set_password():
    return pwgenerator.generate()
 
-async def create_user():
+def create_user():
     
     først_navn = first_name[random_number(len(first_name))]
     andet_navn = last_name[random_number(len(last_name))]
@@ -50,7 +50,7 @@ async def create_user():
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
 
-async def create_users_multithreaded(num_threads):
+def create_users_multithreaded(num_threads):
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
         for _ in range(100):
             executor.submit(create_user)

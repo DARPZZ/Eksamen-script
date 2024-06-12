@@ -19,7 +19,7 @@ def create_IP(session):
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
         
-async def create_users_multithreaded(num_threads):
+def create_ip_multithreaded(session, num_threads):
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        for _ in range(100):
-            executor.submit(create_user)
+        for _ in range(200):
+            executor.submit(create_IP, session)
