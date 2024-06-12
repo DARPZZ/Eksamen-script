@@ -1,13 +1,14 @@
 import requests
 from random_ip_generator import random_ip_for_country
 from concurrent.futures import ThreadPoolExecutor
+list_af_ips =[]
 def create_new_ip():
     country_code = "DK"
     random_ip = random_ip_for_country(country_code)
    
     return random_ip
 def create_IP(session):
-    
+    global list_af_ips
     ip =create_new_ip()
     payload = {
         "ip": str(ip),
@@ -16,6 +17,7 @@ def create_IP(session):
     print(response.status_code)
     if response.status_code == 201:
         print(f"User created successfully: {payload}")
+        list_af_ips.append(payload)
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
         

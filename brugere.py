@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 first_name = []
 last_name = []
 full_name = ""
+all_names=[]
 def set_first_name():
     global first_name  
     with open('fornavnecsv.csv', mode='r', encoding='utf-8') as file:
@@ -31,7 +32,7 @@ def set_password():
    return pwgenerator.generate()
 
 def create_user():
-    
+    global all_names
     først_navn = first_name[random_number(len(first_name))]
     andet_navn = last_name[random_number(len(last_name))]
     email = først_navn + andet_navn + "@gmail.com"
@@ -47,8 +48,11 @@ def create_user():
     
     if response.status_code == 201:
         print(f"User created successfully: {payload}")
+        
+        
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
+    print(all_names)
 
 def create_users_multithreaded(num_threads):
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
