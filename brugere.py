@@ -3,10 +3,43 @@ import csv
 from passwordgenerator import pwgenerator
 import requests
 from concurrent.futures import ThreadPoolExecutor
+import adminlogin
 first_name = []
 last_name = []
 full_name = ""
 all_names=[]
+
+user_emails = []
+
+
+
+def init_emails():
+    global user_emails
+    for user_info in all_names:
+        email_address = user_info['email']
+        user_emails.append(email_address)
+
+def assing_drawer_to_user(session):
+    print("i")
+    i = 1
+    for email in user_emails:
+        
+        payload = {
+            "email": email,
+            "id" : i
+        }
+        
+        response = session.post("http://127.0.0.1:4000/locks/user/", json=payload)
+
+        if response.status_code == 201 or response.status_code == 200:
+            print(f"User created successfully: {payload}")
+
+        else:
+            print(f"Failed to create user: {response.status_code} - {response.text}")
+        i = i+1
+        
+
+        
 def set_first_name():
     global first_name  
     with open('fornavnecsv.csv', mode='r', encoding='utf-8') as file:
@@ -32,32 +65,39 @@ def set_password():
    return pwgenerator.generate()
 
 def create_user():
+  
     global all_names
     først_navn = first_name[random_number(len(first_name))]
     andet_navn = last_name[random_number(len(last_name))]
-    email = først_navn + andet_navn + "@gmail.com"
+    email = (først_navn + andet_navn + "@gmail.com").lower()
+   
     password = set_password()
     payload = {
         "email": email,
         "password": password,
         "firstName": først_navn,
-        "lastName": andet_navn
+        "lastName": andet_navn,
+        
     }
 
     response = requests.post("http://127.0.0.1:4000/users", json=payload)
     
     if response.status_code == 201:
         print(f"User created successfully: {payload}")
+        all_names.append(payload)
+        
         
         
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
-    print(all_names)
+    
+def ct():
+    for _ in range(100):
+        create_user()
 
-def create_users_multithreaded(num_threads):
-    with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        for _ in range(100):
-            executor.submit(create_user)
+
+
+
    
 
 

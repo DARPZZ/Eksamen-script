@@ -21,7 +21,6 @@ def create_IP(session):
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
         
-def create_ip_multithreaded(session, num_threads):
-    with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        for _ in range(200):
-            executor.submit(create_IP, session)
+def create_ips(session):
+    for _ in range(200):
+        create_IP(session)
