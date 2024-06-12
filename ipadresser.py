@@ -1,0 +1,25 @@
+import requests
+from random_ip_generator import random_ip_for_country
+from concurrent.futures import ThreadPoolExecutor
+def create_new_ip():
+    country_code = "DK"
+    random_ip = random_ip_for_country(country_code)
+   
+    return random_ip
+def create_IP(session):
+    
+    ip =create_new_ip()
+    payload = {
+        "ip": str(ip),
+    }
+    response = session.post("http://127.0.0.1:4000/locks", json=payload)
+    print(response.status_code)
+    if response.status_code == 201:
+        print(f"User created successfully: {payload}")
+    else:
+        print(f"Failed to create user: {response.status_code} - {response.text}")
+        
+async def create_users_multithreaded(num_threads):
+    with ThreadPoolExecutor(max_workers=num_threads) as executor:
+        for _ in range(100):
+            executor.submit(create_user)
