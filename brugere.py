@@ -104,7 +104,7 @@ def create_specific_user():
     andet_navn = "Hansen"
     email = (først_navn + andet_navn + "@gmail.com" ).lower()
    
-    password = set_password()
+    password = "bob123"
     payload = {
         "email": email,
         "password": password,
