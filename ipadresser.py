@@ -20,6 +20,19 @@ def create_IP(session):
         list_af_ips.append(payload)
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
+
+
+def create_specific_IP(session):
+    payload = {
+        "ip": "10.176.69.22",
+    }
+    response = session.post("http://127.0.0.1:4000/locks", json=payload)
+    print(response.status_code)
+    if response.status_code == 201:
+        print(f"User created successfully: {payload}")
+        
+    else:
+        print(f"Failed to create user: {response.status_code} - {response.text}")
         
 def create_ips(session):
     for _ in range(200):

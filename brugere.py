@@ -20,8 +20,8 @@ def init_emails():
         user_emails.append(email_address)
 
 def assing_drawer_to_user(session):
-    print("i")
-    i = 1
+    
+    i = 2
     for email in user_emails:
         
         payload = {
@@ -32,6 +32,7 @@ def assing_drawer_to_user(session):
         response = session.post("http://127.0.0.1:4000/locks/user/", json=payload)
 
         if response.status_code == 201 or response.status_code == 200:
+            
             print(f"User created successfully: {payload}")
 
         else:
@@ -57,8 +58,8 @@ def set_second_name():
             last_name.append(line.strip())
             
 
-def random_number(max_val):
-    return random.randint(0, max_val - 1)
+def random_number(min_val,max_val):
+    return random.randint(min_val, max_val - 1)
 
 
 def set_password():
@@ -67,8 +68,8 @@ def set_password():
 def create_user():
   
     global all_names
-    først_navn = first_name[random_number(len(first_name))]
-    andet_navn = last_name[random_number(len(last_name))]
+    først_navn = first_name[random_number(0,len(first_name))]
+    andet_navn = last_name[random_number(0,len(last_name))]
     email = (først_navn + andet_navn + "@gmail.com").lower()
    
     password = set_password()
@@ -90,14 +91,64 @@ def create_user():
         
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
+        
+
+
+
+
+def create_specific_user():
+  
+    
+    først_navn = "Bob"
+    andet_navn = "Hansen"
+    email = (først_navn + andet_navn + "@gmail.com").lower()
+   
+    password = set_password()
+    payload = {
+        "email": email,
+        "password": password,
+        "firstName": først_navn,
+        "lastName": andet_navn,
+        
+    }
+
+    response = requests.post("http://127.0.0.1:4000/users", json=payload)
+    
+    if response.status_code == 201:
+        print(f"User created successfully: {payload}")
+        
+        
+        
+        
+    else:
+        print(f"Failed to create user: {response.status_code} - {response.text}")
+        
+        
+        
+
+
+def assing_drawer_to_specific_user(session):
+        
+        payload = {
+            "email": "bobhansen@gmail.com",
+            "id" : 1
+        }
+        
+        response = session.post("http://127.0.0.1:4000/locks/user/", json=payload)
+
+        if response.status_code == 201 or response.status_code == 200:
+            print(f"User created successfully: {payload}")
+
+        else:
+            print(f"Failed to create user: {response.status_code} - {response.text}")
+       
+        
+        
+    
+    
+    
+    
     
 def ct():
     for _ in range(100):
         create_user()
-
-
-
-
-   
-
-
