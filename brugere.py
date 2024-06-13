@@ -27,9 +27,9 @@ def init_emails():
 
 def assing_drawer_to_user(session):
     
-    i = 2
+ 
     for email in user_emails:
-        
+        i = random.randint(1,200)
         payload = {
             "email": email,
             "id" : i
@@ -43,7 +43,7 @@ def assing_drawer_to_user(session):
 
         else:
             print(f"Failed to create user: {response.status_code} - {response.text}")
-        i = i+1
+        
         
 
         
