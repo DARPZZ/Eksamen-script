@@ -6,7 +6,6 @@ import time
 
 def main():
    brugere.create_specific_user()
-   
    brugere.init_emails()
    brugere.set_first_name()
    brugere.set_second_name()

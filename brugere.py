@@ -145,5 +145,5 @@ def assing_drawer_to_specific_user(session):
        
     
 def ct():
-    for _ in range(100):
+    for _ in range(150):
         create_user()
