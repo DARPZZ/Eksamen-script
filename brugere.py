@@ -2,6 +2,7 @@ import random
 import csv
 from passwordgenerator import pwgenerator
 import requests
+from Ip import IP
 from concurrent.futures import ThreadPoolExecutor
 import adminlogin
 first_name = []
@@ -15,7 +16,6 @@ user_emails = []
 def decide_email_ending():  
     email_prefix_list = ["@gmail.com", "@mail.dk", "@hotmail.com", "@outlook.com"]
     rand = random_number(0,4)
-    print(email_prefix_list[rand])
     return email_prefix_list[rand]
 
 
@@ -35,7 +35,7 @@ def assing_drawer_to_user(session):
             "id" : i
         }
         
-        response = session.post("http://127.0.0.1:4000/locks/user/", json=payload)
+        response = session.post(f"http://{IP}:4000/locks/user/", json=payload)
 
         if response.status_code == 201 or response.status_code == 200:
             
@@ -56,7 +56,6 @@ def set_first_name():
             
             first_element = lines[1].strip()
             if first_element != "":
-                print(first_element)
                 first_name.append(first_element)
 
 
@@ -90,25 +89,17 @@ def create_user():
         
     }
 
-    response = requests.post("http://127.0.0.1:4000/users", json=payload)
+    response = requests.post(f"http://{IP}:4000/users", json=payload)
     
     if response.status_code == 201:
         print(f"User created successfully: {payload}")
         all_names.append(payload)
-        
-        
-        
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
         
         
 
-
-
-
 def create_specific_user():
-  
-    
     først_navn = "Bob"
     andet_navn = "Hansen"
     email = (først_navn + andet_navn + "@gmail.com" ).lower()
@@ -122,7 +113,7 @@ def create_specific_user():
         
     }
 
-    response = requests.post("http://127.0.0.1:4000/users", json=payload)
+    response = requests.post(f"http://{IP}:4000/users", json=payload)
     
     if response.status_code == 201:
         print(f"User created successfully: {payload}")
@@ -144,7 +135,7 @@ def assing_drawer_to_specific_user(session):
             "id" : 1
         }
         
-        response = session.post("http://127.0.0.1:4000/locks/user/", json=payload)
+        response = session.post(f"http://{IP}:4000/locks/user/", json=payload)
 
         if response.status_code == 201 or response.status_code == 200:
             print(f"User created successfully: {payload}")
@@ -152,12 +143,6 @@ def assing_drawer_to_specific_user(session):
         else:
             print(f"Failed to create user: {response.status_code} - {response.text}")
        
-        
-        
-    
-    
-    
-    
     
 def ct():
     for _ in range(100):

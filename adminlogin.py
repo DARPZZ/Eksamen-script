@@ -1,11 +1,11 @@
 import requests
-
+from Ip import IP
 def login(session):
     payload = {
         "email": "admin@mail.com",
         "password": "admin"
     }
-    response = session.post("http://127.0.0.1:4000/admin/signin", json=payload)
+    response = session.post(f"http://{IP}:4000/admin/signin", json=payload)
     
     if response.status_code == 200:
         print(f"Admin login: {payload}")

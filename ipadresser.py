@@ -1,4 +1,5 @@
 import requests
+from Ip import IP
 from random_ip_generator import random_ip_for_country
 from concurrent.futures import ThreadPoolExecutor
 list_af_ips =[]
@@ -13,7 +14,7 @@ def create_IP(session):
     payload = {
         "ip": str(ip),
     }
-    response = session.post("http://127.0.0.1:4000/locks", json=payload)
+    response = session.post(f"http://{IP}:4000/locks", json=payload)
     print(response.status_code)
     if response.status_code == 201:
         print(f"User created successfully: {payload}")
@@ -26,7 +27,7 @@ def create_specific_IP(session):
     payload = {
         "ip": "10.176.69.22",
     }
-    response = session.post("http://127.0.0.1:4000/locks", json=payload)
+    response = session.post(f"http://{IP}:4000/locks", json=payload)
     print(response.status_code)
     if response.status_code == 201:
         print(f"User created successfully: {payload}")
