@@ -12,6 +12,12 @@ all_names=[]
 user_emails = []
 
 
+def decide_email_ending():  
+    email_prefix_list = ["@gmail.com", "@mail.dk", "@hotmail.com", "@outlook.com"]
+    rand = random_number(0,4)
+    print(email_prefix_list[rand])
+    return email_prefix_list[rand]
+
 
 def init_emails():
     global user_emails
@@ -43,12 +49,15 @@ def assing_drawer_to_user(session):
         
 def set_first_name():
     global first_name  
-    with open('fornavnecsv.csv', mode='r', encoding='utf-8') as file:
+    with open('test.csv', mode='r', encoding='utf-8') as file:
         csvFile = csv.reader(file, delimiter=';')
         next(csvFile)  
         for lines in csvFile:
-            first_element = lines[0]
-            first_name.append(first_element)
+            
+            first_element = lines[1].strip()
+            if first_element != "":
+                print(first_element)
+                first_name.append(first_element)
 
 
 def set_second_name():
@@ -70,7 +79,7 @@ def create_user():
     global all_names
     først_navn = first_name[random_number(0,len(first_name))]
     andet_navn = last_name[random_number(0,len(last_name))]
-    email = (først_navn + andet_navn + "@gmail.com").lower()
+    email = (først_navn + andet_navn + decide_email_ending()).lower()
    
     password = set_password()
     payload = {
@@ -92,6 +101,7 @@ def create_user():
     else:
         print(f"Failed to create user: {response.status_code} - {response.text}")
         
+        
 
 
 
@@ -101,7 +111,7 @@ def create_specific_user():
     
     først_navn = "Bob"
     andet_navn = "Hansen"
-    email = (først_navn + andet_navn + "@gmail.com").lower()
+    email = (først_navn + andet_navn + "@gmail.com" ).lower()
    
     password = set_password()
     payload = {
